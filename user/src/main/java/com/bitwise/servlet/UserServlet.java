@@ -28,6 +28,8 @@ public class UserServlet extends HttpServlet {
 	User user = null;
 	Validation validation = null;
 	Output output = null;
+	
+	
 
 	public UserServlet() {
 		System.out.println("******From UserServlet***********");
@@ -41,6 +43,8 @@ public class UserServlet extends HttpServlet {
 		output = new Output();
 		List<Output.Success> outputSuccess = new ArrayList<>();
 		List<Output.Failure> outputFailure = new ArrayList<>();
+		
+		System.out.println("Header_ID:"+req.getHeader("id"));
 
 		user = JsonUtil.convertJsonToJava(req.getReader().lines().collect(Collectors.joining()), User.class);
 
