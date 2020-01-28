@@ -7,8 +7,7 @@ public class UserService {
 
 	public boolean userModification(User user) {
 
-		String name = "Mr." + user.getName();
-		user.setName(name);
+		user.setName("Mr." + user.getName());
 		return new UserDao().insertUser(user);
 
 	}

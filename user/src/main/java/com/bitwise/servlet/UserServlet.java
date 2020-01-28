@@ -1,6 +1,8 @@
 package com.bitwise.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -37,6 +39,9 @@ public class UserServlet extends HttpServlet {
 		user = new User();
 		validation = new Validation();
 		output = new Output();
+		List<Output.Success> outputSuccess = new ArrayList<>();
+		List<Output.Failure> outputFailure = new ArrayList<>();
+
 		user = JsonUtil.convertJsonToJava(req.getReader().lines().collect(Collectors.joining()), User.class);
 
 		boolean isNameValid = validation.isNameValid(user.getName());
@@ -45,25 +50,26 @@ public class UserServlet extends HttpServlet {
 		if (isNameValid && isMobileNumberValid) {
 
 			if (userService.userModification(user)) {
-				resp.getWriter().write(
-						JsonUtil.convertJavaToJson(new Output(1, output.new Success(200, "Sucessfully Inserted"))));
+
+				outputSuccess.add(output.new Success(200, "Sucessfully Inserted"));
+				resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(1, outputSuccess, outputFailure)));
 			} else {
 
-				resp.getWriter()
-						.write(JsonUtil.convertJavaToJson(new Output(0, output.new Success(400, "Not Inserted"))));
+				outputSuccess.add(output.new Success(400, "Not Inserted"));
+				resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(0, outputSuccess, outputFailure)));
 			}
 		} else {
 			if (false == isNameValid) {
 
-			
-				resp.getWriter().write(
-						JsonUtil.convertJavaToJson(new Output(0, output.new Failure(600, "Name is not Valid Format"))));
+				outputFailure.add(output.new Failure(600, "Name is not Valid Format"));
 			}
 			if (false == isMobileNumberValid) {
-				resp.getWriter().write(JsonUtil.convertJavaToJson(
-						new Output(0, output.new Failure(700, "Mobile Number is not Valid Format"))));
+				outputFailure.add(output.new Failure(700, "Mobile Number is not Valid Format"));
 
 			}
+
+			resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(0, outputSuccess, outputFailure)));
+
 		}
 
 	}

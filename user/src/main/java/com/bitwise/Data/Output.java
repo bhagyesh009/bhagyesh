@@ -1,32 +1,26 @@
 package com.bitwise.Data;
 
+import java.util.List;
+
 public class Output {
 
 	private int data;
-	private Success success;
-	private Failure failure;
-
-	public Output(int data, Success success, Failure failure) {
-		super();
-		this.data = data;
-		this.success = success;
-		this.failure = failure;
-	}
-
-	public Output(int data, Success success) {
-		super();
-		this.data = data;
-		this.success = success;
-	}
-
-	public Output(int data, Failure failure) {
-		super();
-		this.data = data;
-		this.failure = failure;
-	}
+	private List<Success> successList;
+	private List<Failure> failureList;
+	
 
 	public Output() {
+		super();
 	}
+
+
+	public Output(int data, List<Success> successList, List<Failure> failureList) {
+		super();
+		this.data = data;
+		this.successList = successList;
+		this.failureList = failureList;
+	}
+	
 
 	public int getData() {
 		return data;
@@ -36,26 +30,28 @@ public class Output {
 		this.data = data;
 	}
 
-	public Success getSuccess() {
-		return success;
+	public List<Success> getSuccessList() {
+		return successList;
 	}
 
-	public void setSuccess(Success success) {
-		this.success = success;
+	public void setSuccessList(List<Success> successList) {
+		this.successList = successList;
 	}
 
-	public Failure getFailure() {
-		return failure;
+	public List<Failure> getFailureList() {
+		return failureList;
 	}
 
-	public void setFailure(Failure failure) {
-		this.failure = failure;
+	public void setFailureList(List<Failure> failureList) {
+		this.failureList = failureList;
 	}
+
 
 	@Override
 	public String toString() {
-		return "Output [data=" + data + ", success=" + success + ", failure=" + failure + "]";
+		return "Output [data=" + data + ", successList=" + successList + ", failureList=" + failureList + "]";
 	}
+
 
 	public class Success {
 		private int successCode;
