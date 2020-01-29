@@ -13,7 +13,7 @@ public class Application extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		super.doGet(req, resp);
-		System.out.println("haeder_APP:"+req.getHeader("id"));
+		//System.out.println("haeder_APP:"+req.getHeader("id"));
 	}
 
 }

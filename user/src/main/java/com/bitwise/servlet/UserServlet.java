@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bitwise.Dao.UserDao;
 import com.bitwise.Data.Output;
+import com.bitwise.Data.Output.Failure;
+import com.bitwise.Data.Output.Success;
 import com.bitwise.Data.User;
 import com.bitwise.Data.Validation;
 import com.bitwise.service.UserService;
@@ -41,10 +43,10 @@ public class UserServlet extends HttpServlet {
 		user = new User();
 		validation = new Validation();
 		output = new Output();
-		List<Output.Success> outputSuccess = new ArrayList<>();
-		List<Output.Failure> outputFailure = new ArrayList<>();
+		List<Output.Success> outputSuccess = new ArrayList<Success>();
+		List<Output.Failure> outputFailure = new ArrayList<Failure>();
 		
-		System.out.println("Header_ID:"+req.getHeader("id"));
+	//	System.out.println("Header_ID:"+req.getHeader("id"));
 
 		user = JsonUtil.convertJsonToJava(req.getReader().lines().collect(Collectors.joining()), User.class);
 
