@@ -1,17 +1,33 @@
 package com.bitwise.util;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class JDBCConnection {
 
 	public static Connection jdbcConnection() {
-		Connection con = null;
+		Properties property = new Properties();
+		try {
+			FileInputStream file = new FileInputStream(
+					"C:\\Users\\bhagyeshd\\git\\bhagyesh5\\user\\config.properties");
+
+			property.load(file);
+
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/user", "root", "root");
+			Class.forName(property.getProperty("driverName"));
+			return  DriverManager.getConnection(property.getProperty("URL"), property.getProperty("username"),
+					property.getProperty("password"));
 		} catch (ClassNotFoundException e) {
 
 			e.printStackTrace();
@@ -19,7 +35,7 @@ public class JDBCConnection {
 
 			e.printStackTrace();
 		}
-	return con;
+		return null;
 	}
 
 }
