@@ -39,6 +39,8 @@ public class UserFilter implements Filter {
 		while (itr.hasNext()) {
 			Map.Entry entry = (Map.Entry) itr.next();
 			System.out.println(entry.getKey() + " = " + entry.getValue());
+			System.out.println(entry.getKey() + " = " + entry.getValue());
+
 		}
 
 	}
