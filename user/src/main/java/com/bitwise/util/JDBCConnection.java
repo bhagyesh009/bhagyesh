@@ -14,7 +14,7 @@ public class JDBCConnection {
 		Properties property = new Properties();
 		try {
 			FileInputStream file = new FileInputStream(
-					"C:\\Users\\bhagyeshd\\git\\bhagyesh5\\user\\config.properties");
+					"C:\\Users\\Bhagyesh\\git\\bhagyesh\\user\\config.properties");
 
 			property.load(file);
 
