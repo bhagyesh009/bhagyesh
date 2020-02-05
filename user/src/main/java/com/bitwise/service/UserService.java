@@ -12,4 +12,20 @@ public class UserService {
 
 	}
 
+	public boolean userDeletion(int id) {
+		return new UserDao().deleteUser(id);
+
+	}
+
+	public User userDetail(int id) {
+
+		return new UserDao().getUser(id);
+
+	}
+
+	public boolean userUpdate(int id, long mobNo) {
+
+		return new UserDao().updateUser(id, mobNo);
+	}
+
 }

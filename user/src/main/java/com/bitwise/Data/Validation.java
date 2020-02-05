@@ -1,7 +1,10 @@
 package com.bitwise.Data;
 
-public class Validation {
 
+
+
+public class Validation {
+	
 	public boolean isMobileNumberValid(long mobno) {
 
 		if ((int) (Math.log10(mobno) + 1) == 10) {
@@ -24,4 +27,5 @@ public class Validation {
 
 	}
 
+	
 }

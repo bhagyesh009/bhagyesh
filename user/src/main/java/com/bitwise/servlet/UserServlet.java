@@ -30,8 +30,8 @@ public class UserServlet extends HttpServlet {
 	User user = null;
 	Validation validation = null;
 	Output output = null;
-	
-	
+	List<Output.Success> outputSuccess = null;
+	List<Output.Failure> outputFailure = null;
 
 	public UserServlet() {
 		System.out.println("******From UserServlet***********");
@@ -40,13 +40,10 @@ public class UserServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		userService = new UserService();
-		user = new User();
 		validation = new Validation();
 		output = new Output();
-		List<Output.Success> outputSuccess = new ArrayList<Success>();
-		List<Output.Failure> outputFailure = new ArrayList<Failure>();
-		
-	//	System.out.println("Header_ID:"+req.getHeader("id"));
+		outputSuccess = new ArrayList<Success>();
+		outputFailure = new ArrayList<Failure>();
 
 		user = JsonUtil.convertJsonToJava(req.getReader().lines().collect(Collectors.joining()), User.class);
 
@@ -74,6 +71,82 @@ public class UserServlet extends HttpServlet {
 
 			}
 
+			resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(0, outputSuccess, outputFailure)));
+
+		}
+
+	}
+
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		userService = new UserService();
+		output = new Output();
+		outputSuccess = new ArrayList<Success>();
+		outputFailure = new ArrayList<Failure>();
+
+		user = JsonUtil.convertJsonToJava(req.getReader().lines().collect(Collectors.joining()), User.class);
+		if (userService.userDeletion(user.getId())) {
+
+			outputSuccess.add(output.new Success(200, "ID: " + user.getId() + " Sucessfully Deleted"));
+			resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(1, outputSuccess, outputFailure)));
+
+		} else {
+
+			outputFailure.add(output.new Failure(400, "ID :" + user.getId() + " not present in database"));
+			resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(0, outputSuccess, outputFailure)));
+
+		}
+
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		userService = new UserService();
+		output = new Output();
+		outputSuccess = new ArrayList<Success>();
+		outputFailure = new ArrayList<Failure>();
+		user = JsonUtil.convertJsonToJava(req.getReader().lines().collect(Collectors.joining()), User.class);
+
+		if (null != userService.userDetail(user.getId()) && true == userService.userDetail(user.getId()).getStatus()) {
+
+			resp.getWriter().write(JsonUtil.convertJavaToJson(userService.userDetail(user.getId())));
+		} else {
+			if (null != userService.userDetail(user.getId())
+					&& false == userService.userDetail(user.getId()).getStatus()) {
+				outputFailure.add(output.new Failure(200, "ID :" + user.getId() + " is not Active"));
+				resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(0, outputSuccess, outputFailure)));
+			} else {
+				outputFailure.add(output.new Failure(400, "ID :" + user.getId() + " not present in database"));
+				resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(0, outputSuccess, outputFailure)));
+			}
+
+		}
+
+	}
+
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		userService = new UserService();
+		output = new Output();
+		outputSuccess = new ArrayList<Success>();
+		outputFailure = new ArrayList<Failure>();
+		validation = new Validation();
+		user = JsonUtil.convertJsonToJava(req.getReader().lines().collect(Collectors.joining()), User.class);
+
+		boolean isMobileNumberValid = validation.isMobileNumberValid(user.getMobNo());
+
+		if (true == isMobileNumberValid) {
+			if (true == userService.userUpdate(user.getId(), user.getMobNo())) {
+				outputSuccess.add(output.new Success(200, "ID: " + user.getId() + " Sucessfully Upadted"));
+				resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(1, outputSuccess, outputFailure)));
+			} else {
+				outputFailure.add(output.new Failure(400, "ID :" + user.getId() + " not present"));
+				resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(0, outputSuccess, outputFailure)));
+
+			}
+
+		} else {
+			outputFailure.add(output.new Failure(700, "Mobile Number is not Valid Format"));
 			resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(0, outputSuccess, outputFailure)));
 
 		}

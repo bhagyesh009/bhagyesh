@@ -8,6 +8,7 @@ public class User implements Serializable {
 	private int id;
 	private String name;
 	private long mobNo;
+	private boolean status;
 
 	public int getId() {
 		return id;
@@ -17,20 +18,12 @@ public class User implements Serializable {
 		super();
 	}
 
-	public User(int id, String name, long mobNo) {
+	public User(int id, String name, long mobNo, boolean status) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.mobNo = mobNo;
-	}
-
-	public User(int id) {
-		super();
-		this.id = id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+		this.status = status;
 	}
 
 	public String getName() {
@@ -49,10 +42,22 @@ public class User implements Serializable {
 		this.mobNo = mobNo;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", mobNo=" + mobNo + "]";
+	public boolean getStatus() {
+		return status;
 	}
 
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	
 
 }
