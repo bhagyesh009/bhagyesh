@@ -13,9 +13,7 @@ public class JDBCConnection {
 	public static Connection jdbcConnection() {
 		Properties property = new Properties();
 		try {
-			FileInputStream file = new FileInputStream(
-					"E:\\Users\\bhagyeshd\\git\\bhagyesh5\\user\\config.properties");
-
+			FileInputStream file = new FileInputStream("E:\\Users\\bhagyeshd\\git\\bhagyesh5\\user\\config.properties");
 			property.load(file);
 
 		} catch (FileNotFoundException e1) {
