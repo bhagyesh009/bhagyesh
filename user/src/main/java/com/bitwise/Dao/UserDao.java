@@ -121,8 +121,6 @@ public class UserDao {
 		return false;
 	}
 	
-	public void name () {
-		
-	}
+	
 
 }
