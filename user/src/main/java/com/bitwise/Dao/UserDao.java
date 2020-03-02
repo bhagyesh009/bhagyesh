@@ -14,6 +14,8 @@ public class UserDao {
 	PreparedStatement st = null;
 	ResultSet rs = null;
 	Connection con = null;
+	Connection con1 = null;
+
 	Validation validation = new Validation();
 	User user = null;
 
@@ -23,28 +25,57 @@ public class UserDao {
 
 	public boolean insertUser(User user) {
 		con = JDBCConnection.jdbcConnection();
-		String insertUserQuery = "insert into user(name,mobNo) values(?,?)";
-		try {
-			st = con.prepareStatement(insertUserQuery);
-			st.setString(1, user.getName());
-			st.setLong(2, user.getMobNo());
-
-			int row = st.executeUpdate();
-
-			return row > 0;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
+		
+		if (isMobNumberUniue(user.getMobNo())) {
+			String insertUserQuery = "insert into user(name,mobNo) values(?,?)";
 			try {
-				con.close();
+				st = con.prepareStatement(insertUserQuery);
+				st.setString(1, user.getName());
+				st.setLong(2, user.getMobNo());
+
+				int row = st.executeUpdate();
+
+				return row > 0;
+
 			} catch (SQLException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return false;
 	}
+	public boolean isMobNumberUniue(long mobNo) {
+		con1 = JDBCConnection.jdbcConnection();
 
+		String checkMobNumberQuery = "select mobNo from user where mobNo=?";
+		try {
+			st = con.prepareStatement(checkMobNumberQuery);
+			st.setLong(1, mobNo);
+
+			ResultSet rs = st.executeQuery();
+
+			if (rs != null && rs.next()) {
+					
+					return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return true;
+	}
+
+	
 	public boolean deleteUser(int id) {
 		con = JDBCConnection.jdbcConnection();
 
@@ -120,7 +151,5 @@ public class UserDao {
 
 		return false;
 	}
-	
-	
 
 }

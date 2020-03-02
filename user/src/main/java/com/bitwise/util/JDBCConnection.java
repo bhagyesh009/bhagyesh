@@ -24,8 +24,7 @@ public class JDBCConnection {
 
 		try {
 			Class.forName(property.getProperty("driverName"));
-			return  DriverManager.getConnection(property.getProperty("URL"), property.getProperty("username"),
-					property.getProperty("password"));
+			return  DriverManager.getConnection(property.getProperty("URL"), property.getProperty("username"),property.getProperty("password"));
 		} catch (ClassNotFoundException e) {
 
 			e.printStackTrace();

@@ -20,7 +20,7 @@ import com.bitwise.Data.Validation;
 import com.bitwise.service.UserService;
 import com.bitwise.util.JsonUtil;
 
-@WebServlet(name = "UserServlet", urlPatterns = "/insertUser")
+@WebServlet(name = "UserServlet", urlPatterns = "/user")
 public class UserServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -58,7 +58,7 @@ public class UserServlet extends HttpServlet {
 				resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(1, outputSuccess, outputFailure)));
 			} else {
 
-				outputSuccess.add(output.new Success(400, "Not Inserted"));
+				outputSuccess.add(output.new Success(400, "User is already Present"));
 				resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(0, outputSuccess, outputFailure)));
 			}
 		} else {
@@ -85,14 +85,15 @@ public class UserServlet extends HttpServlet {
 		outputFailure = new ArrayList<Failure>();
 
 		user = JsonUtil.convertJsonToJava(req.getReader().lines().collect(Collectors.joining()), User.class);
-		if (userService.userDeletion(user.getId())) {
+		int id = Integer.parseInt(req.getParameter("id"));
+		if (userService.userDeletion(id)) {
 
-			outputSuccess.add(output.new Success(200, "ID: " + user.getId() + " Sucessfully Deleted"));
+			outputSuccess.add(output.new Success(200, "ID: " + id + " Sucessfully Deleted"));
 			resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(1, outputSuccess, outputFailure)));
 
 		} else {
 
-			outputFailure.add(output.new Failure(400, "ID :" + user.getId() + " not present in database"));
+			outputFailure.add(output.new Failure(400, "ID :" + id + " not present in database"));
 			resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(0, outputSuccess, outputFailure)));
 
 		}
@@ -105,18 +106,18 @@ public class UserServlet extends HttpServlet {
 		output = new Output();
 		outputSuccess = new ArrayList<Success>();
 		outputFailure = new ArrayList<Failure>();
-		user = JsonUtil.convertJsonToJava(req.getReader().lines().collect(Collectors.joining()), User.class);
 
-		if (null != userService.userDetail(user.getId()) && true == userService.userDetail(user.getId()).getStatus()) {
+		int id = Integer.parseInt(req.getParameter("id"));
 
-			resp.getWriter().write(JsonUtil.convertJavaToJson(userService.userDetail(user.getId())));
+		if (null != userService.userDetail(id) && true == userService.userDetail(id).getStatus()) {
+
+			resp.getWriter().write(JsonUtil.convertJavaToJson(userService.userDetail(id)));
 		} else {
-			if (null != userService.userDetail(user.getId())
-					&& false == userService.userDetail(user.getId()).getStatus()) {
-				outputFailure.add(output.new Failure(200, "ID :" + user.getId() + " is not Active"));
+			if (null != userService.userDetail(id) && false == userService.userDetail(id).getStatus()) {
+				outputFailure.add(output.new Failure(200, "ID :" + id + " is not Active"));
 				resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(0, outputSuccess, outputFailure)));
 			} else {
-				outputFailure.add(output.new Failure(400, "ID :" + user.getId() + " not present in database"));
+				outputFailure.add(output.new Failure(400, "ID :" + id + " not present in database"));
 				resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(0, outputSuccess, outputFailure)));
 			}
 
@@ -132,15 +133,15 @@ public class UserServlet extends HttpServlet {
 		outputFailure = new ArrayList<Failure>();
 		validation = new Validation();
 		user = JsonUtil.convertJsonToJava(req.getReader().lines().collect(Collectors.joining()), User.class);
-
+		int id = Integer.parseInt(req.getParameter("id"));
 		boolean isMobileNumberValid = validation.isMobileNumberValid(user.getMobNo());
 
 		if (true == isMobileNumberValid) {
-			if (true == userService.userUpdate(user.getId(), user.getMobNo())) {
-				outputSuccess.add(output.new Success(200, "ID: " + user.getId() + " Sucessfully Upadted"));
+			if (true == userService.userUpdate(id, user.getMobNo())) {
+				outputSuccess.add(output.new Success(200, "ID: " + id + " Sucessfully Upadted"));
 				resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(1, outputSuccess, outputFailure)));
 			} else {
-				outputFailure.add(output.new Failure(400, "ID :" + user.getId() + " not present"));
+				outputFailure.add(output.new Failure(400, "ID :" + id + " not present"));
 				resp.getWriter().write(JsonUtil.convertJavaToJson(new Output(0, outputSuccess, outputFailure)));
 
 			}

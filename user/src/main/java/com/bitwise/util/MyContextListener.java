@@ -21,7 +21,7 @@ public class MyContextListener implements ServletContextListener {
 		Properties property = new Properties();
 		FileInputStream file;
 		try {
-			file = new FileInputStream("E:\\\\Users\\\\bhagyeshd\\\\git\\\\bhagyesh5\\\\user\\\\config.properties");
+			file = new FileInputStream("E:\\Users\\bhagyeshd\\git\\bhagyesh5\\user\\config.properties");
 			property.load(file);
 
 		} catch (FileNotFoundException e) {

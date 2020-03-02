@@ -2,8 +2,9 @@ package com.bitwise.Data;
 
 
 
-
 public class Validation {
+	
+	
 	
 	public boolean isMobileNumberValid(long mobno) {
 
@@ -26,6 +27,8 @@ public class Validation {
 			return false;
 
 	}
+	
+	
 
 	
 }
