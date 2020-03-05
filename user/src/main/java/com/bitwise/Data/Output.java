@@ -7,12 +7,10 @@ public class Output {
 	private int data;
 	private List<Success> successList;
 	private List<Failure> failureList;
-	
 
 	public Output() {
 		super();
 	}
-
 
 	public Output(int data, List<Success> successList, List<Failure> failureList) {
 		super();
@@ -20,7 +18,6 @@ public class Output {
 		this.successList = successList;
 		this.failureList = failureList;
 	}
-	
 
 	public int getData() {
 		return data;
@@ -46,12 +43,10 @@ public class Output {
 		this.failureList = failureList;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Output [data=" + data + ", successList=" + successList + ", failureList=" + failureList + "]";
 	}
-
 
 	public class Success {
 		private int successCode;
