@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+    <testsuite name="MyTestSuite" tests="4" failures="2" errors="0" skipped="0">
+        <testcase name="testAddition" classname="com.example.MyTest" time="0.001">
+            <failure message="Expected 2 but got 3" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Expected 2 but got 3
+    at com.example.MyTest.testAddition(MyTest.java:12)
+            </failure>
+        </testcase>
+		 <testcase name="testAddition" classname="com.example.MyTest" time="0.001">
+            <failure message="Expected 2 but got 3" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Expected 2 but got 3
+    at com.example.MyTest.testAddition(MyTest.java:12)
+            </failure>
+        </testcase>
+        <testcase name="testSubtraction" classname="com.example.MyTest" time="0.002"/>
+		 <testcase name="testAddition" classname="com.example.MyTest" time="0.001">
+            <failure message="Expected 2 but got 3" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: Expected 2 but got 3
+    at com.example.MyTest.testAddition(MyTest.java:12)
+            </failure>
+        </testcase>
+        <testcase name="testSubtraction" classname="com.example.MyTest" time="0.002"/>
+    </testsuite>
+</testsuites>
